@@ -2,24 +2,39 @@
 <!doctype html>
 <html lang="en">
   <head>
-        <style>
+    <style>
   html, body {
     height: 100%;
-    overflow: hidden;
+    margin: 0;
+    padding: 0;
   }
+
   .site-wrap {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .site-section {
+    flex: 1;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .container {
     height: 100%;
-    overflow: hidden;
   }
 </style>
-    <title>JobBoard &mdash; Website Template by Colorlib</title>
+
+    <title>JobBoard</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="" />
     <meta name="keywords" content="" />
     <meta name="author" content="Free-Template.co" />
     <link rel="shortcut icon" href="ftco-32x32.png">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    
     <link rel="stylesheet" href="../assets/css/custom-bs.css">
     <link rel="stylesheet" href="../assets/css/jquery.fancybox.min.css">
     <link rel="stylesheet" href="../assets/css/bootstrap-select.min.css">
@@ -53,7 +68,7 @@
       <div class="site-mobile-menu-body"></div>
     </div> <!-- .site-mobile-menu -->
     
-  
+
     <!-- NAVBAR -->
     <header class="site-navbar mt-3">
       <div class="container-fluid">
@@ -132,77 +147,58 @@
         </div>
       </div>
     </header>
-
-    <!-- HOME -->
-    <br>
-    <section class="site-section" id="next-section">
+    <section class="site-section"style="background-color: white; height: 80vh;" id="site-section">
       <div class="container">
-      </div>
 
-      <div class="col-lg-12 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-title">Messages</h4>
-                    
-                    </p>
-                    <div class="table-responsive">
-                      <table class="table ">
-                        <thead>
-                          <tr>
-                         
-                            
-                            
-                          <th> # </th>
-                            <th> Job </th>
-                            <th> Company </th>
-                           
-                            <th> Date </th>
-                            <th> Status </th>
-                           
-                           
-                            <!-- <th>View</th> -->
-                           
-                          </tr>
-                        </thead>
-                        <tbody>
-                        
-                        @foreach($applications as $application)
-            <tr>
-            <td>{{ $loop->iteration }}</td>
-                <td>{{ $application->job->job_title }}</td>
-                <td>{{ $application->job->company_name }}</td>
-               
-                <td>{{ $application->updated_at->format('Y-m-d') }}</td>
-                <td>
-                  @if($application->status === 'in progress')
-                    <label class="badge badge-warning">In progress</label>
-                  @elseif($application->status === 'approved')
-                    <label class="badge badge-success">Accepted</label>
-                  @else($application->status === 'refused')
-                    <label class="badge badge-danger">Refused</label>
+        <div class="row mb-5 justify-content-center">
+          <div class="col-md-7 text-center">
+          <h2 class="section-title mb-2 text-white">{{$totaljobs}} Job Listed</h2>
+ 
+
+          </div>
+        </div>
         
-                  @endif
-                </td>
-            </tr>
-            @endforeach
-                        
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
+        <ul class="job-listings mb-5">
+        @foreach($jobs as $job)
+          <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center" style="background-color: #f5f5f5; border-radius: 10px; padding: 20px; margin-bottom: 15px;">
+            <a href="{{ route('job_single', ['id' => $job->id]) }}"></a>
+            <div class="job-listing-logo">
+            @if($job->image)
+            <img src="{{ asset('jobimage/' . $job->image) }}" alt="Job Image" width="100" height="100">
+        @else
+            <!-- Display a placeholder image if there's no image for this job -->
+            <img src="{{ asset('path/to/placeholder/image.jpg') }}" alt="Placeholder Image" width="100" height="100">
+        @endif
+            </div>
+
+            <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
+              <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
+                <h2>{{ $job->job_title}}</h2>
+  <strong>{{ $job->company_name}}</strong>
               </div>
+              <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
+                <span class="icon-room"></span>{{ $job->job_region}}
+              </div>
+              <div class="job-listing-meta">
+                <span class="badge badge-danger">{{ $job->job_type}}</span>
+              </div>
+            </div>
+            @endforeach
+       
+           
+        
+
+          
+
+          
+        </ul>
+
+     
 
       </div>
     </section>
-    
-
-  </div>
-
-    <!-- SCRIPTS -->
-       <!-- SCRIPTS -->
         <!-- SCRIPTS -->
-   <script src="../assets/js/jquery.min.js"></script>
+      <script src="../assets/js/jquery.min.js"></script>
     <script src="../assets/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/js/isotope.pkgd.min.js"></script>
     <script src="../assets/js/stickyfill.min.js"></script>
@@ -219,9 +215,7 @@
     
     <script src="../assets/js/custom.js"></script>
    
-   
-   
-   
+
      
   </body>
 </html>

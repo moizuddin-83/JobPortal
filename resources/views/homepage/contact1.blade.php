@@ -2,6 +2,29 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <style>
+  html, body {
+    height: 100%;
+    overflow: hidden;
+  }
+  .site-wrap {
+    height: 100%;
+    overflow: hidden;
+  }
+  .btn-custom-grey {
+  background-color:rgb(140, 142, 143); /* Light grey */
+  color:rgb(99, 105, 108);
+  border: 1px solid rgb(140, 142, 143);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-custom-grey:hover {
+  background-color:rgb(107, 209, 131); /* Bootstrap green */
+  color: #fff;
+  border-color:rgb(107, 209, 131);;
+}
+
+</style>
     <title>JobBoard &mdash; Website Template by Colorlib</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -48,16 +71,16 @@
     <header class="site-navbar mt-3">
       <div class="container-fluid">
         <div class="row align-items-center">
-          <div class="site-logo col-6"><a href="{{url('/')}}">JobBoard</a></div>
+          <div class="site-logo col-6  text-black"><a href="{{url('/')}}" class= 'text-black'>JobBoard</a></div>
 
           <nav class="mx-auto site-navigation">
-            <ul class="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
-              <li><a href="{{url('/')}}" class="nav-link active">Home</a></li>
-              <li><a href="{{route('about')}}">About</a></li>
+            <ul class="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0 text-black">
+              <li><a href="{{url('/')}}" class="nav-link active text-black">Home</a></li>
+              <li><a href="{{ route('joblist') }}" class="text-black">Job Listings</a></li>
            
               
             
-              <li><a href="{{route('contact')}}">Contact</a></li>
+              
               <li class="d-lg-none"><a href="post-job.html"><span class="mr-2">+</span> Post a Job</a></li>
               
             </ul>
@@ -104,61 +127,81 @@
     </header>
 
     <!-- HOME -->
-    <section class="section-hero overlay inner-page bg-image" style="background-image: url('../assets/images/hero_1.jpg');" id="home-section">
+   
+
+    <section class="site-section"  id="next-section">
       <div class="container">
         <div class="row">
-          <div class="col-md-7">
-            <h1 class="text-white font-weight-bold">Category</h1>
-            <div class="custom-breadcrumbs">
-              <a href="#">Home</a> <span class="mx-2 slash">/</span>
-              <span class="text-white"><strong>Category</strong></span>
+          <div class="col-lg-6 mb-5 mb-lg-0">
+          <form method="POST" action="{{ route('contact.store') }}">
+          @csrf
+            <form action="#" class="">
+
+              <div class="row form-group">
+                <div class="col-md-6 mb-3 mb-md-0">
+                  <label class="text-black" for="fname">First Name</label>
+                  <input type="text" id="fname" class="form-control" name="fname">
+                </div>
+                <div class="col-md-6">
+                  <label class="text-black" for="lname">Last Name</label>
+                  <input type="text" id="lname" class="form-control" name="lname">
+                </div>
+              </div>
+
+              <div class="row form-group">
+                
+                <div class="col-md-12">
+                  <label class="text-black" for="email">Email</label> 
+                  <input type="email" id="email" class="form-control" name="email">
+                </div>
+              </div>
+
+              <div class="row form-group">
+                
+                <div class="col-md-12">
+                  <label class="text-black" for="subject">Subject</label> 
+                  <input type="subject" id="subject" class="form-control" name="subject">
+                </div>
+              </div>
+
+              <div class="row form-group">
+                <div class="col-md-12">
+                  <label class="text-black" for="message">Message</label> 
+                  <textarea name="message" id="message" cols="30" rows="7" class="form-control" placeholder="Write your notes or questions here..." name="message"></textarea>
+                </div>
+              </div>
+
+              <div class="row form-group">
+  <div class="col-md-12">
+    <input type="submit" value="Send Message" class="btn btn-primary text-black">
+  </div>
+</div>
+
+              </form>
+
+  
+            </form>
+          </div>
+          <div class="col-lg-5 ml-auto">
+            <div class="p-4 mb-3 bg-white">
+              <p class="mb-0 font-weight-bold">Address</p>
+              <p class="mb-4">203 Fake St. Mountain View, San Francisco, California, USA</p>
+
+              <p class="mb-0 font-weight-bold">Phone</p>
+              <p class="mb-4"><a href="#">+1 232 3235 324</a></p>
+
+              <p class="mb-0 font-weight-bold">Email Address</p>
+              <p class="mb-0"><a href="#">youremail@domain.com</a></p>
+
             </div>
           </div>
         </div>
       </div>
     </section>
-   
-    <section class="site-section">
-    <div class="container">
-        <h1 class="mb-4">Jobs in Category: {{ $category->name }}</h1>
-
-        <ul class="job-listings mb-5">
-            @forelse ($jobs as $job)
-                <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
-                    <a href="{{ route('job_single', ['id' => $job->id]) }}"></a>
-                    <div class="job-listing-logo">
-                        @if ($job->image)
-                            <img src="{{ asset('jobimage/' . $job->image) }}" alt="Job Image" width="100" height="100">
-                        @else
-                            <!-- Display a placeholder image if there's no image for this job -->
-                            <img src="{{ asset('path/to/placeholder/image.jpg') }}" alt="Placeholder Image" width="100" height="100">
-                        @endif
-                    </div>
-
-                    <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
-                        <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
-                            <h2>{{ $job->job_title }}</h2>
-                            <strong>{{ $job->company_name }}</strong>
-                        </div>
-                        <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
-                            <span class="icon-room"></span>{{ $job->job_region }}
-                        </div>
-                        <div class="job-listing-meta">
-                            <span class="badge badge-danger">{{ $job->job_type }}</span>
-                        </div>
-                    </div>
-                </li>
-            @empty
-                <li>No jobs found in this category.</li>
-            @endforelse
-        </ul>
-    </div>
-    </section>
 
     
     
     
-  
   </div>
 
     <!-- SCRIPTS -->

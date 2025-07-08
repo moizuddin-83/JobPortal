@@ -2,24 +2,35 @@
 <!doctype html>
 <html lang="en">
   <head>
-        <style>
-  html, body {
-    height: 100%;
-    overflow: hidden;
-  }
-  .site-wrap {
-    height: 100%;
-    overflow: hidden;
-  }
+<style>
+
+<style>
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+.site-wrap {
+  height: 100%;
+  overflow: hidden;
+}
+#home-section {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
 </style>
-    <title>JobBoard &mdash; Website Template by Colorlib</title>
+
+</style>
+    <title>JobBoard</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="" />
     <meta name="keywords" content="" />
     <meta name="author" content="Free-Template.co" />
     <link rel="shortcut icon" href="ftco-32x32.png">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    
     <link rel="stylesheet" href="../assets/css/custom-bs.css">
     <link rel="stylesheet" href="../assets/css/jquery.fancybox.min.css">
     <link rel="stylesheet" href="../assets/css/bootstrap-select.min.css">
@@ -53,7 +64,7 @@
       <div class="site-mobile-menu-body"></div>
     </div> <!-- .site-mobile-menu -->
     
-  
+
     <!-- NAVBAR -->
     <header class="site-navbar mt-3">
       <div class="container-fluid">
@@ -62,9 +73,9 @@
 
           <nav class="mx-auto site-navigation">
             <ul class="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
-              <li><a href="{{url('/home')}}" class="nav-link active text-black">Home</a></li>
-              <li><a href="{{route('joblisting')}} "class='text-black'>Job Listings</a></li>
-              <li><a href="{{route('contact')}}" class='text-black'>Contact</a></li>
+         
+              <li><a href="{{ route('joblist') }}" class="text-black">Job Listings</a></li>
+            <li><a href="{{route('contact1')}}" class='text-black'>Contact</a></li>
               <li class="d-lg-none"><a href="post-job.html"><span class="mr-2">+</span> Post a Job</a></li>
               <li class="d-lg-none"><a href="login.html">Log In</a></li>
             </ul>
@@ -134,75 +145,27 @@
     </header>
 
     <!-- HOME -->
-    <br>
-    <section class="site-section" id="next-section">
-      <div class="container">
+    <!-- HOME -->
+<section id="home-section " class="home-section section-hero d-flex align-items-center justify-content-center" style="background-color: white;">
+  <div class="container ">
+        <div class="row align-items-center justify-content-center mb-5">
+          <div class="col-md-12 ">
+            <div class="mb-5 text-center">
+              <h1 class="text-black font-weight-bold" style='font-size: 2rem;'>Welcome to <span class="text-black" style="font-weight: normal; font-size: 2rem; letter-spacing: .2rem; text-transform: uppercase;">
+    JOBBOARD<span class="text-black font-weight-bold" style='font-size: 2rem;'>!</span>
+  </span></h1>
+              <h4 class="text-black">Making job finding <span class='text-primary'>easier</span>.</h4>
+                <p class="text-black">Upload your CV, browse available jobs, apply for positions.</p>
+            </div>
+         
+          </div>
+        </div>
       </div>
+</section>
 
-      <div class="col-lg-12 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-title">Messages</h4>
-                    
-                    </p>
-                    <div class="table-responsive">
-                      <table class="table ">
-                        <thead>
-                          <tr>
-                         
-                            
-                            
-                          <th> # </th>
-                            <th> Job </th>
-                            <th> Company </th>
-                           
-                            <th> Date </th>
-                            <th> Status </th>
-                           
-                           
-                            <!-- <th>View</th> -->
-                           
-                          </tr>
-                        </thead>
-                        <tbody>
-                        
-                        @foreach($applications as $application)
-            <tr>
-            <td>{{ $loop->iteration }}</td>
-                <td>{{ $application->job->job_title }}</td>
-                <td>{{ $application->job->company_name }}</td>
-               
-                <td>{{ $application->updated_at->format('Y-m-d') }}</td>
-                <td>
-                  @if($application->status === 'in progress')
-                    <label class="badge badge-warning">In progress</label>
-                  @elseif($application->status === 'approved')
-                    <label class="badge badge-success">Accepted</label>
-                  @else($application->status === 'refused')
-                    <label class="badge badge-danger">Refused</label>
-        
-                  @endif
-                </td>
-            </tr>
-            @endforeach
-                        
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-      </div>
-    </section>
     
-
-  </div>
-
-    <!-- SCRIPTS -->
        <!-- SCRIPTS -->
-        <!-- SCRIPTS -->
-   <script src="../assets/js/jquery.min.js"></script>
+      <script src="../assets/js/jquery.min.js"></script>
     <script src="../assets/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/js/isotope.pkgd.min.js"></script>
     <script src="../assets/js/stickyfill.min.js"></script>
@@ -219,9 +182,7 @@
     
     <script src="../assets/js/custom.js"></script>
    
-   
-   
-   
+
      
   </body>
 </html>

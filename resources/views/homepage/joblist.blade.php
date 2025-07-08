@@ -2,14 +2,8 @@
 <!doctype html>
 <html lang="en">
   <head>
-<style>html, body {
-  height: 100%;
-  overflow: hidden;
-}
-.site-wrap {
-  height: 100%;
-  overflow: hidden;
-} </style>
+
+
     <title>JobBoard</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -56,13 +50,13 @@
     <header class="site-navbar mt-3">
       <div class="container-fluid">
         <div class="row align-items-center">
-          <div class="site-logo col-6 text-black"><a href="{{url('/home')}}" class="text-black">JobBoard</a></div>
+          <div class="site-logo col-6 text-black"><a href="{{url('/')}}" class="text-black">JobBoard</a></div>
 
           <nav class="mx-auto site-navigation">
             <ul class="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
+              <li><a href="{{url('/')}}" class="nav-link active text-black">Home</a></li>
               
-              <li><a href="{{route('joblisting')}} "class='text-black'>Job Listings</a></li>
-              <li><a href="{{route('contact')}}" class='text-black'>Contact</a></li>
+              <li><a href="{{route('contact1')}}" class='text-black'>Contact</a></li>
               <li class="d-lg-none"><a href="post-job.html"><span class="mr-2">+</span> Post a Job</a></li>
               <li class="d-lg-none"><a href="login.html">Log In</a></li>
             </ul>
@@ -74,49 +68,27 @@
 @if(Route::has('login'))
 
   @auth
-  <div class="d-flex align-items-center">
-  <!-- Applications Dropdown -->
-  <div class="dropdown show">
-    <button class="btn btn-outline-secondary dropdown-toggle" 
-            type="button" 
-            id="dropdownMenuApplications" 
-            data-toggle="dropdown" 
-            aria-haspopup="true" 
-            aria-expanded="false">
-      Applications
-    </button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuApplications">
-      <a class="dropdown-item" href="{{ route('showProfile') }}">Profile</a>
-      <div class="dropdown-divider"></div>
-      <a class="dropdown-item" href="{{ route('favourites') }}">Favourite</a>
-      <div class="dropdown-divider"></div>
-      <a class="dropdown-item" href="{{ route('messages') }}">Messages</a>
-      <div class="dropdown-divider"></div>
-      <a class="dropdown-item" href="{{ route('upload_cv') }}">Upload CV</a>
-    </div>
-  </div>
+  <div class="flex">
 
-  <!-- Username Dropdown -->
-  <div class="dropdown show ml-2">
-    <button class="btn btn-outline-secondary dropdown-toggle" 
-            type="button" 
-            id="dropdownMenuUser" 
-            data-toggle="dropdown" 
-            aria-haspopup="true" 
-            aria-expanded="false">
-      {{ Auth::user()->name }}
-    </button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuUser">
-      <a class="dropdown-item" href="{{ route('showProfile') }}">Profile</a>
-      <div class="dropdown-divider"></div>
-      <form method="POST" action="{{ route('logout') }}">
-        @csrf
-        <button class="dropdown-item" type="submit">Logout</button>
-      </form>
-    </div>
-  </div>
+  <div class="dropdown">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuOutlineButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> Applications </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuOutlineButton2" style="position: absolute; transform: translate3d(0px, 34px, 0px); top: 0px; left: 0px; will-change: transform;" x-placement="bottom-start">
+                        <a class="dropdown-item" href="{{route('showProfile')}}">Profile</a>
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="{{route('favourites')}}">Favourite</a>
+                         
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="{{route('messages')}}">Messages</a>
+                          <div class="dropdown-divider"></div>
+                          
+                          <a class="dropdown-item" href="{{route('upload_cv')}}">Upload cv</a>
+                        </div>
+                      </div>
+<br>
+<x-app-layout>
+</x-app-layout>
+
 </div>
-
   @else
   <a href="{{route('register')}}" class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-lock_outline"></span>Register</a>
   <a href="{{route('login')}}" class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-lock_outline"></span>Log In</a>
@@ -130,25 +102,57 @@
         </div>
       </div>
     </header>
+    <section class="site-section"style="background-color: white; height: 80vh;" id="site-section">
+      <div class="container">
 
-    <!-- HOME -->
-    <section class="home-section section-hero d-flex align-items-center justify-content-center" style="background-color: white;" id="home-section">
+        <div class="row mb-5 justify-content-center">
+          <div class="col-md-7 text-center">
+          <h2 class="section-title mb-2 text-white">{{$totaljobs}} Job Listed</h2>
+ 
 
-      <div class="container ">
-        <div class="row align-items-center justify-content-center mb-5">
-          <div class="col-md-12 ">
-            <div class="mb-5 text-center">
-              <h1 class="text-black font-weight-bold" style='font-size:2rem'>The Easiest Way To Get Your Dream Job</h1>
-              <p class="text-black" style='font-size: 1.2rem;'>Are you ready to turn your dreams into <span class='text-primary'>reality</span>?<br>Discover the easiest and most efficient way to secure your dream job with <span class='text-primary'>JobBoard</span>.</p>
-            </div>
-         
           </div>
         </div>
+        
+        <ul class="job-listings mb-5">
+        @foreach($jobs as $job)
+          <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center" style="background-color: #f5f5f5; border-radius: 10px; padding: 20px; margin-bottom: 15px;">
+            <a href="{{ route('jobdet', ['id' => $job->id]) }}"></a>
+            <div class="job-listing-logo">
+            @if($job->image)
+            <img src="{{ asset('jobimage/' . $job->image) }}" alt="Job Image" width="100" height="100">
+        @else
+            <!-- Display a placeholder image if there's no image for this job -->
+            <img src="{{ asset('path/to/placeholder/image.jpg') }}" alt="Placeholder Image" width="100" height="100">
+        @endif
+            </div>
+
+            <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
+              <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
+                <h2>{{ $job->job_title}}</h2>
+  <strong>{{ $job->company_name}}</strong>
+              </div>
+              <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
+                <span class="icon-room"></span>{{ $job->job_region}}
+              </div>
+              <div class="job-listing-meta">
+                <span class="badge badge-danger">{{ $job->job_type}}</span>
+              </div>
+            </div>
+            @endforeach
+       
+           
+        
+
+          
+
+          
+        </ul>
+
+     
+
       </div>
-
-      <!-- Removed scroll button -->
-
-       <!-- SCRIPTS -->
+    </section>
+        <!-- SCRIPTS -->
       <script src="../assets/js/jquery.min.js"></script>
     <script src="../assets/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/js/isotope.pkgd.min.js"></script>

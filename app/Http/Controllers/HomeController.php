@@ -36,6 +36,22 @@ class HomeController extends Controller
         return redirect()->back();
     }
 
+    public function clientLogin(Request $request)
+{
+    $credentials = $request->only('email', 'password');
+
+    // Optional: Ensure the user is a client
+    $user = \App\Models\User::where('email', $credentials['email'])->first();
+
+    if ($user && $user->usertype === 'client') {
+        if (Auth::attempt($credentials)) {
+            return redirect()->route('client.home'); // Custom route to user home
+        }
+    }
+
+    return redirect()->back()->withErrors(['email' => 'Invalid credentials or not a client user']);
+}
+
     public function index()
     {
         $totaljobs = Job::count();
@@ -61,7 +77,13 @@ class HomeController extends Controller
    
     
     
-    
+    public function joblisting()
+{
+    $jobs = Job::all();
+    $totaljobs = $jobs->count();
+    // Pass both $jobs and $totaljobs to the view
+    return view('user.joblisting', compact('jobs', 'totaljobs'));
+}
 
     public function about(){
         return view('user.about');
@@ -69,6 +91,10 @@ class HomeController extends Controller
 
     public function contact(){
         return view('user.contact');
+    }
+
+    public function contact1(){
+        return view('homepage.contact1');
     }
 
     public function post_job(){
@@ -95,6 +121,14 @@ class HomeController extends Controller
      $jobs=Job::find($id)  ;
         return view('user.job_single',compact('jobs'));
     }
+public function adminMessages()
+{
+    dd('You hit adminMessages');
+    $applications = \App\Models\Application::with(['job', 'user'])->latest()->get();
+
+    return view('admin.messages', compact('applications'));
+}
+
 
     public function messages(){
         if (Auth::check()) {
@@ -122,6 +156,30 @@ class HomeController extends Controller
     public function upload_cv(){
         return view('user.upload_cv');
     }
+   public function jobdet($id)
+{
+    $job = Job::find($id);
+
+    if (!$job) {
+        return redirect()->back()->with('error', 'Job not found.');
+    }
+
+    $totaljobs = Job::count();
+    $totalusers = User::count();
+    $categories = Category::all();
+    $jobs = Job::all();
+
+    return view('homepage.jobsingle', compact('job', 'totaljobs', 'totalusers', 'jobs', 'categories'));
+}
+
+
+    public function joblist()
+{
+    $jobs = Job::all();
+    $totaljobs = $jobs->count();
+
+    return view('homepage.joblist', compact('jobs', 'totaljobs'));
+}
 
     public function store_cv(Request $request)
 {
@@ -133,7 +191,8 @@ class HomeController extends Controller
     ]);
 
     // Store the uploaded CV file in the 'cv_uploads' directory
-    $path = $request->file('cv')->store('cv_uploads');
+    $path = $request->file('cv')->store('cv_uploads', 'public');
+
 
     // Create or update the CVUser record for the current user
     $cvUser = CVUser::updateOrCreate(['user_id' => $user->id], ['cv_path' => $path]);

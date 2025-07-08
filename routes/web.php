@@ -9,6 +9,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\JobApplicationController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CVController;
 
 
 /*
@@ -32,11 +33,35 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
 Route::get('/home', [HomeController::class, 'redirect']);
 
-Route::get('/', [HomeController::class, 'index']);
-Route::get('/', [HomeController::class, 'index2']);
+Route::get('/', function () {
+        return view('homepage.homepage');
+    })->name('homepage');
+Route::get('/home', [HomeController::class, 'redirect']);
+
+Route::get('/', function () {
+        return view('homepage.homepage');
+    })->name('homepage');
+Route::get('/joblist', [HomeController::class, 'joblist'])->name('joblist');
+Route::get('/joblisting', [HomeController::class, 'joblisting'])->name('joblisting');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
+
+Route::get('/client/home', [HomeController::class, 'index'])->name('client.home');
+
+Route::post('/client-login', [HomeController::class, 'clientLogin'])->name('client.login');
+
+Route::get('/admin/messages', [HomeController::class, 'adminMessages'])
+    ->name('admin.messages');
+
+
+
+
+
+Route::get('/contact1', [HomeController::class, 'contact1'])->name('contact1');
+
 Route::get('/post_job', [HomeController::class, 'post_job'])->name('post_job');
+Route::get('/jobdet/{id}', [HomeController::class, 'jobdet'])->name('jobdet');
+
 Route::get('/job_single/{id}', [HomeController::class, 'job_single'])->name('job_single');
 Route::get('/messages', [HomeController::class, 'messages'])->name('messages');
 Route::get('/upload_cv', [HomeController::class, 'upload_cv'])->name('upload_cv');
@@ -85,7 +110,8 @@ Route::post('/edit_category/{id}', [CategoryController::class, 'edit_category'])
 Route::get('/category_single/{name}', [CategoryController::class, 'category_single'])->name('category_single');
 
 
-
+Route::get('/cv/view/{id}', [CVController::class, 'view'])->name('cv.view');
+Route::delete('/cv/delete/{id}', [CVController::class, 'delete'])->name('cv.delete');
 
 
 

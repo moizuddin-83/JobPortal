@@ -1,34 +1,84 @@
-<x-guest-layout>
-    <x-authentication-card>
-        <x-slot name="logo">
-            <x-authentication-card-logo />
-        </x-slot>
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Reset Password - JobBoard Admin</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <div class="mb-4 text-sm text-gray-600">
-            {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+    <!-- CSS -->
+    <link rel="stylesheet" href="../assets/css/custom-bs.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="../assets/fonts/icomoon/style.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .auth-card {
+            max-width: 500px;
+            margin: 80px auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="auth-card">
+        <div class="text-center mb-4">
+    <a href="{{ url('/') }}" class="text-dark" style="font-weight: normal; font-size: 1.5rem; letter-spacing: .2rem; text-transform: uppercase;
+    text-decoration: none;">
+        JobBoard
+    </a>
+<p> Reset your password. </p>
         </div>
 
+        <div class="mb-3 text-sm text-center" style="color: rgba(0, 0, 0, 0.62);">
+            Enter your email and we’ll send you a link to reset it.
+        </div>
+
+        <!-- Session Status -->
         @if (session('status'))
-            <div class="mb-4 font-medium text-sm text-green-600">
+            <div class="alert alert-success">
                 {{ session('status') }}
             </div>
         @endif
 
-        <x-validation-errors class="mb-4" />
+        <!-- Validation Errors -->
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
         <form method="POST" action="{{ route('password.email') }}">
             @csrf
 
-            <div class="block">
-                <x-label for="email" value="{{ __('Email') }}" />
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+            <div class="form-group mb-3">
+                <label for="email">Email Address</label>
+                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus autocomplete="username">
             </div>
 
-            <div class="flex items-center justify-end mt-4">
-                <x-button>
-                    {{ __('Email Password Reset Link') }}
-                </x-button>
+            <div class="d-flex justify-content-between">
+                <a class="underline text-left text-sm text-gray-600 hover:text-gray-900 mt-2" href="{{ route('login') }}">
+                    {{ __('Remember your password?') }}
+                </a>
+                <button type="submit" class="btn btn-primary px-4">
+                    Send Reset Link
+                </button>
             </div>
         </form>
-    </x-authentication-card>
-</x-guest-layout>
+    </div>
+
+    <!-- JS -->
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/custom.js"></script>
+</body>
+</html>

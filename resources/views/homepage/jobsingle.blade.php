@@ -2,41 +2,7 @@
 <!doctype html>
 <html lang="en">
 
-  <style>
-    html, body {
-    height: 100%;
-    overflow: hidden;
-  }
-  .site-wrap {
-    height: 100%;
-    overflow: hidden;
-  }
-
-
-.job-content-wrapper {
-  display: flex;
-  flex-direction: row;
-  height: 100%;
-  gap: 30px;
-  overflow: hidden;
-}
-
-.job-left,
-.job-right {
-  overflow-y: auto;
-  padding: 20px;
-}
-
-.job-left {
-  flex: 2;
-}
-
-.job-right {
-  flex: 1;
-  background-color: #f8f9fa;
-  border-left: 1px solid #dee2e6;
-}
-  </style>
+  
   <head>
     <title class="text-black">JobBoard &mdash; Website Template by Colorlib</title>
     <meta charset="utf-8">
@@ -86,9 +52,9 @@
 
           <nav class="mx-auto site-navigation">
             <ul class="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
-              <li><a href="{{url('/home')}}" class="nav-link active text-black">Home</a></li>
-              <li><a href="{{route('joblisting')}} "class='text-black'>Job Listings</a></li>
-              <li><a href="{{route('contact')}}" class='text-black'>Contact</a></li>
+              <li><a href="{{url('/')}}" class="nav-link active text-black">Home</a></li>
+              <li><a href="{{route('joblist')}} "class='text-black'>Job Listings</a></li>
+              <li><a href="{{route('contact1')}}" class='text-black'>Contact</a></li>
               <li class="d-lg-none"><a href="post-job.html"><span class="mr-2">+</span> Post a Job</a></li>
               <li class="d-lg-none"><a href="login.html">Log In</a></li>
             </ul>
@@ -100,49 +66,27 @@
 @if(Route::has('login'))
 
   @auth
-  <div class="d-flex align-items-center">
-  <!-- Applications Dropdown -->
-  <div class="dropdown show">
-    <button class="btn btn-outline-secondary dropdown-toggle" 
-            type="button" 
-            id="dropdownMenuApplications" 
-            data-toggle="dropdown" 
-            aria-haspopup="true" 
-            aria-expanded="false">
-      Applications
-    </button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuApplications">
-      <a class="dropdown-item" href="{{ route('showProfile') }}">Profile</a>
-      <div class="dropdown-divider"></div>
-      <a class="dropdown-item" href="{{ route('favourites') }}">Favourite</a>
-      <div class="dropdown-divider"></div>
-      <a class="dropdown-item" href="{{ route('messages') }}">Messages</a>
-      <div class="dropdown-divider"></div>
-      <a class="dropdown-item" href="{{ route('upload_cv') }}">Upload CV</a>
-    </div>
-  </div>
+  <div class="flex">
 
-  <!-- Username Dropdown -->
-  <div class="dropdown show ml-2">
-    <button class="btn btn-outline-secondary dropdown-toggle" 
-            type="button" 
-            id="dropdownMenuUser" 
-            data-toggle="dropdown" 
-            aria-haspopup="true" 
-            aria-expanded="false">
-      {{ Auth::user()->name }}
-    </button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuUser">
-      <a class="dropdown-item" href="{{ route('showProfile') }}">Profile</a>
-      <div class="dropdown-divider"></div>
-      <form method="POST" action="{{ route('logout') }}">
-        @csrf
-        <button class="dropdown-item" type="submit">Logout</button>
-      </form>
-    </div>
-  </div>
+  <div class="dropdown">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuOutlineButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> Applications </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuOutlineButton2" style="position: absolute; transform: translate3d(0px, 34px, 0px); top: 0px; left: 0px; will-change: transform;" x-placement="bottom-start">
+                        <a class="dropdown-item" href="{{route('showProfile')}}">Profile</a>
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="{{route('favourites')}}">Favourite</a>
+                         
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="{{route('messages')}}">Messages</a>
+                          <div class="dropdown-divider"></div>
+                          
+                          <a class="dropdown-item" href="{{route('upload_cv')}}">Upload cv</a>
+                        </div>
+                      </div>
+<br>
+<x-app-layout>
+</x-app-layout>
+
 </div>
-
   @else
   <a href="{{route('register')}}" class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-lock_outline"></span>Register</a>
   <a href="{{route('login')}}" class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-lock_outline"></span>Log In</a>
@@ -236,7 +180,7 @@
               <div class="col-6">
                 <form action="{{ route('save_job', ['id' => $job->id]) }}" method="POST">
                   @csrf
-                  <button type="submit" class="btn btn-block btn-md {{ Auth::user()->hasSavedJob($job->id) ? 'btn-primary' : 'btn-outline-secondary' }}">
+                  <button type="submit" class="btn btn-block btn-md {{ Auth::user()->hasSavedJob($job->id) ? 'btn-primary' : 'btn-light' }}">
                     @if(Auth::user()->hasSavedJob($job->id))
                       <i class="icon-check"></i> Job Saved
                     @else
@@ -253,8 +197,8 @@
                 @else
                   <form action="{{ route('apply', ['job' => $job->id]) }}" method="POST">
                     @csrf
-                    <button type="submit" class="btn btn-block btn-md btn-primary text-black">
-                      <span class="icon-paper-plane text-black mr-2"></span> Apply Now
+                    <button type="submit" class="btn btn-block btn-md btn-primary">
+                      <span class="icon-paper-plane mr-2"></span> Apply Now
                     </button>
                   </form>
                 @endif
